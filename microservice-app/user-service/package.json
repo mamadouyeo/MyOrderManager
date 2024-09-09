@@ -4,8 +4,10 @@
   "description": "service utilisateur",
   "main": "user-server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "devUser" : "user-server.js"
+   "devUserService": "ts-node-dev --respawn src/user-server.ts",
+		"build": "tsc",
+		"start": "node dist/src/user-server.js",
+		"test": "jest"
   },
   "author": "yeo k mamadou",
   "license": "ISC",

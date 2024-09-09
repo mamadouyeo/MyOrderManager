@@ -11,5 +11,6 @@ app.use('api/user-service', ()=> {
 
 //lecture sur le port 5001
 app.listen(port, ()=> {
-    "le service user est lancé sur le port" + port
+    console.log("le service user est lancé sur le port " + port);
+    
 })
