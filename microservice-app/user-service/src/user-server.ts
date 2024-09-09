@@ -1,6 +1,6 @@
 import express from 'express'
 import ddotenv from 'dotenv'
-const port = 5001
+const port = 5000
 const app = express()
 app.use(express.json());
 app.use('api/user-service', ()=> {
