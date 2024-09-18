@@ -1,0 +1,55 @@
+import { Request, Response } from 'express';
+import User from '../../models/user.model';
+import bcrypt from 'bcryptjs';
+
+const createUser = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { email, password, name } = req.body;
+
+    // Vérifier si tous les champs sont fournis
+    if (!email || !password || !name) {
+      return res.status(400).json({ message: 'Tous les champs sont requis.' });
+    }
+
+    // Vérifier si un utilisateur avec cet email existe déjà
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Cet email est déjà utilisé.' });
+    }
+
+    // Hacher le mot de passe
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
+    
+    // Créer un nouvel utilisateur
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword, // Stocker le mot de passe haché
+    });
+
+    // Sauvegarder l'utilisateur dans la base de données
+    const savedUser = await newUser.save().catch((err) => {
+      throw new Error('Erreur lors de la sauvegarde de l\'utilisateur');
+    });
+
+    return res.status(201).json({
+      message: 'Utilisateur créé avec succès.',
+      user: {
+        id: savedUser._id,
+        name: savedUser.name,
+        email: savedUser.email
+      },
+    });
+
+  } catch (error) {
+    // Gestion des erreurs
+    if (error instanceof Error) {
+      return res.status(500).json({ message: 'Erreur serveur : ' + error.message });
+    } else {
+      return res.status(500).json({ message: 'Une erreur inconnue est survenue.' });
+    }
+  }
+};
+
+export { createUser };
