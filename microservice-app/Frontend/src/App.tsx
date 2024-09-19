@@ -6,6 +6,7 @@ import Header from './composants/Header'
 import Footer from './composants/Footer'
 import Register from './pages/Register';
 import Login from './pages/Login';
+import Product from './pages/Product';
  // Import du Footer
 
 const App: React.FC = () => {
@@ -20,6 +21,7 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path='/product' element={<Product/>} />
           </Routes>
         </div>
         

@@ -6,7 +6,7 @@ import React, { useState } from 'react';
  const handleSubmit = async (event: React.FormEvent) => {
  event.preventDefault();
  try {
- const response = await axios.post('/api/login', { email, password });
+ const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
  localStorage.setItem('token', response.data.token);
  alert('Connexion réussie');
  } catch (error) {
