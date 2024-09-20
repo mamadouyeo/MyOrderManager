@@ -8,8 +8,8 @@ const router = Router();
 
 
 
-router.post('/Add',AddOrdinateur)
-router.get('/All', Allordinateur)
+router.post('/add',AddOrdinateur)
+router.get('/all', Allordinateur)
 
 
 export default router;

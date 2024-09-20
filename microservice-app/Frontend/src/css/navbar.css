@@ -1,8 +1,10 @@
 /* Style général pour la barre de navigation */
 .navbar {
   display: flex;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 600;
   padding: 10px 20px; /* Ajouter de l'espace autour des éléments */
-  background-color: #333; /* Couleur de fond de la barre de navigation */
+  background-color: #df910c; /* Couleur de fond de la barre de navigation */
   color: white; /* Couleur du texte */
 }
 
@@ -17,7 +19,6 @@
   margin: 0;
   padding-left: 20px;
   flex: 2; /* Prend de l'espace au centre */
- /* Centre les liens de navigation */
 }
 
 .nav-links li {
