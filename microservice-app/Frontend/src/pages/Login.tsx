@@ -16,7 +16,7 @@ import React, { useState } from 'react';
  return (
     <div className="max-w-md mx-auto mt-8 p-4 border rounded shadow">
             <h2 className="text-2xl font-semibold mb-4">Connexion</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} style={{display : 'flex', flexDirection :'column'}}>
             <div className="mb-4">
             <label className="block text-sm font-medium mb-2" htmlFor="email">Email</label>
             <input
