@@ -6,7 +6,7 @@ const Register: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Hook pour la navigation
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

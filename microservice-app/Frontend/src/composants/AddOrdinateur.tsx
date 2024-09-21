@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import axios from 'axios';
 import '../css/AddOrdinateur.css'; // Assurez-vous d'importer le fichier CSS
 
 interface OrdinateurFormData {
@@ -27,6 +28,7 @@ const AddOrdinateur: React.FC = () => {
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
@@ -50,10 +52,39 @@ const AddOrdinateur: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
-    alert('Ordinateur ajouté avec succès !');
+    setLoading(true);
+
+    // Création d'un FormData pour inclure l'image et les autres données
+    const data = new FormData();
+    data.append('marque', formData.marque);
+    data.append('PurchasePrice', formData.PurchasePrice);
+    data.append('quantity', formData.quantity);
+    data.append('color', formData.color);
+    data.append('disqueDur', formData.disqueDur);
+    data.append('ram', formData.ram);
+    data.append('frequence', formData.frequence);
+    data.append('rotation', formData.rotation);
+
+    if (formData.picture) {
+      data.append('picture', formData.picture); // Ajout de l'image
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5001/api/ordinateur/add', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(response.data);
+      alert('Ordinateur ajouté avec succès !');
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout de l\'ordinateur', error);
+      alert('Une erreur est survenue lors de l\'ajout de l\'ordinateur.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -179,8 +210,8 @@ const AddOrdinateur: React.FC = () => {
           </div>
         </div>
 
-        <button type="submit" className="button">
-          Ajouter l'Ordinateur
+        <button type="submit" className="button" disabled={loading}>
+          {loading ? 'Ajout en cours...' : 'Ajouter l\'Ordinateur'}
         </button>
       </form>
     </div>

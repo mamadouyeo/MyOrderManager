@@ -96,11 +96,12 @@ const styles = {
     position: 'absolute' as 'absolute',
     top: '10px',
     right: '10px',
-    backgroundColor: 'red',
+    backgroundColor: 'black',
     color: '#fff',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
+
   },
 };
 

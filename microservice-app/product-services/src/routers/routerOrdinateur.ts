@@ -1,4 +1,4 @@
-import { AddOrdinateur } from "../controllers/controller/controllerordinateur/add.product";
+import { AddOrdinateur, upload } from "../controllers/controller/controllerordinateur/add.product";
 import { Router } from "express";
 import { Allordinateur } from "../controllers/controller/controllerordinateur/Allordinateur";
 const router = Router();
@@ -6,9 +6,8 @@ const router = Router();
 
 
 
-
-
-router.post('/add',AddOrdinateur)
+// Route pour ajouter un ordinateur avec upload d'image
+router.post('/add', upload.single('picture'), AddOrdinateur);
 router.get('/all', Allordinateur)
 
 
