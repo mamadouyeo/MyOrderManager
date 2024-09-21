@@ -11,7 +11,7 @@ app.use(cors()); // Activer CORS
 app.use(express.json());
 
 // Servir les fichiers statiques depuis le dossier 'uploads'
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/src/uploads', express.static('src/uploads'));
 
 // Routes des ordinateurs
 app.use('/api/ordinateur', OrdinateurRouter); // Ajouter le préfixe de route ici

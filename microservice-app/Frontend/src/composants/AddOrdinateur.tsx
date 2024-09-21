@@ -79,6 +79,20 @@ const AddOrdinateur: React.FC = () => {
       });
       console.log(response.data);
       alert('Ordinateur ajouté avec succès !');
+
+      // Réinitialiser le formulaire après le succès de la soumission
+      setFormData({
+        marque: '',
+        picture: null,
+        PurchasePrice: '',
+        quantity: '',
+        color: '',
+        disqueDur: '',
+        ram: '',
+        frequence: '',
+        rotation: '',
+      });
+      setImagePreview(null); // Réinitialiser l'aperçu de l'image
     } catch (error) {
       console.error('Erreur lors de l\'ajout de l\'ordinateur', error);
       alert('Une erreur est survenue lors de l\'ajout de l\'ordinateur.');
@@ -90,28 +104,7 @@ const AddOrdinateur: React.FC = () => {
   return (
     <div className="container">
       <h1 className="title">Ajouter un Ordinateur</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className="label">Image (Importer)</label>
-          <input
-            type="file"
-            name="picture"
-            onChange={handleChange}
-            className="input"
-            accept="image/*"
-            required
-          />
-          {imagePreview && (
-            <div className="image-preview">
-              <img
-                src={imagePreview}
-                alt="Aperçu de l'ordinateur"
-                className="image-preview"
-              />
-            </div>
-          )}
-        </div>
-
+      <form onSubmit={handleSubmit}  className='from'>
         <div className="grid grid-cols-2 gap-4">
           <div className="form-group">
             <label className="label">Marque</label>
@@ -209,10 +202,33 @@ const AddOrdinateur: React.FC = () => {
             />
           </div>
         </div>
+        <div style={{paddingTop:'25px', marginLeft : '60px'}}>
+        {imagePreview && (
+            <div className="image-preview">
+              <img
+                src={imagePreview}
+                alt="Aperçu de l'ordinateur"
+                className="image-preview"
+              />
+            </div>
+          )}
+          
+          <input
+            type="file"
+            name="picture"
+            onChange={handleChange}
+            className="input"
+            accept="image/*"
+            required
+          />
+          
+        </div>
+     <div style={{marginTop : '130px'}}>
+     <button type="submit" className="button" disabled={loading} >
+  {loading ? 'Ajout en cours...' : 'Enregistrer'}
+</button>
+     </div>
 
-        <button type="submit" className="button" disabled={loading}>
-          {loading ? 'Ajout en cours...' : 'Ajouter l\'Ordinateur'}
-        </button>
       </form>
     </div>
   );

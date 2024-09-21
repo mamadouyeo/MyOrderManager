@@ -1,0 +1,58 @@
+.container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  .ordinateurs-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centre les éléments de la liste */
+  }
+  
+  .ordinateur-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ordinateur-image {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center; /* Centre les boutons */
+    gap: 10px; /* Espace entre les boutons */
+  }
+  
+  .button-achater {
+    padding: 10px;
+    background-color: #e19e0d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .button-supprimer {
+    padding: 10px;
+    background-color: #b83806;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  

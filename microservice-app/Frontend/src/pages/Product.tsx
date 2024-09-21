@@ -50,13 +50,11 @@ const Product: React.FC = () => {
         </button>
       </nav>
 
-      <div style={styles.content}>
-        {/* Afficher le formulaire quand isFormVisible est true */}
-        {isFormVisible && <FormOrdinateur />}
+      {/* Afficher le formulaire quand isFormVisible est true */}
+      {isFormVisible && <FormOrdinateur />}
 
-        {/* Afficher tous les ordinateurs quand isAllOrdinateurVisible est true */}
-        {isAllOrdinateurVisible && <AllOrdinateur />}
-      </div>
+      {/* Afficher tous les ordinateurs quand isAllOrdinateurVisible est true */}
+      {isAllOrdinateurVisible && <AllOrdinateur />}
     </div>
   );
 };
@@ -89,7 +87,6 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
   },
-  
   showButtons: {
     padding: '10px 20px',
     backgroundColor: 'black',
@@ -105,12 +102,6 @@ const styles = {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
-  },
-  content: {
-    padding: '20px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 };
 
