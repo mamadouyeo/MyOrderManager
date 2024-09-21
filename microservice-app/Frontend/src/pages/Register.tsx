@@ -71,8 +71,8 @@ const Register: React.FC = () => {
         </div>
         <button
           type="submit"
-          className="w-full py-2 bg-blue-600 text-white rounded"
-        >
+          className="w-full py-2 bg-black text-white rounded">
+        
           S'inscrire
         </button>
       </form>

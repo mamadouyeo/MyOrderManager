@@ -6,6 +6,7 @@
   padding: 10px 20px; /* Ajouter de l'espace autour des éléments */
   background-color: #df910c; /* Couleur de fond de la barre de navigation */
   color: white; /* Couleur du texte */
+  border: solid rgb(250, 248, 248) 3px;
 }
 
 /* Style pour le logo */
