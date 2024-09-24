@@ -6,7 +6,7 @@ import React from 'react';
  
  <main className="p-4">
  <h2 className="text-xl font-semibold">Bienvenue sur la page d'accueil</h2>
- <p>Ceci est un exemple d'application React avec TypeScript et Tailwind CSS.</p>
+ <p>Application de vente des equipements informatique</p>
  </main>
 
  </div>

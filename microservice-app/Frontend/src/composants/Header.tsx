@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../css/navbar.css';
 
+// Import Font Awesome Icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+
 const Header: React.FC = () => {
   return (
     <nav className="navbar">
@@ -20,8 +24,13 @@ const Header: React.FC = () => {
         </li>
       </ul>
 
-      {/* Liens de connexion */}
+      {/* Liens de connexion et icone de panier */}
       <div className="logs">
+        <li>
+          <Link to="/cart">
+            <FontAwesomeIcon icon={faShoppingCart} /> {/* Icone panier */}
+          </Link>
+        </li>
         <li>
           <Link to="/register">S'inscrire</Link> {/* Lien vers Register */}
         </li>

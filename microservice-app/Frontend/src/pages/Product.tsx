@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FormOrdinateur from '../composants/AddOrdinateur';
+ import FormTelephone from '../composants/AddTelephone'; // Supposons que vous ayez un composant pour ajouter un téléphone
+ import FormImprimante from '../composants/AddImprimante'; // Supposons que vous ayez un composant pour ajouter une imprimante
 import AllOrdinateur from '../composants/Allordinateur';
 import axios from 'axios';
 
@@ -14,19 +16,15 @@ interface Ordinateur {
 }
 
 const Product: React.FC = () => {
-  // État pour contrôler la visibilité du formulaire d'ajout
+  const [isAddOptionsVisible, setIsAddOptionsVisible] = useState(false); // Contrôle la visibilité des trois boutons
   const [isFormVisible, setIsFormVisible] = useState(false);
-  // État pour contrôler la visibilité de la liste des ordinateurs
   const [isAllOrdinateurVisible, setIsAllOrdinateurVisible] = useState(true);
-  // État pour stocker le terme de recherche
   const [searchTerm, setSearchTerm] = useState('');
-  // État pour stocker tous les ordinateurs
   const [ordinateurs, setOrdinateurs] = useState<Ordinateur[]>([]);
-  // État pour stocker les ordinateurs filtrés en fonction de la recherche
   const [filteredOrdinateurs, setFilteredOrdinateurs] = useState<Ordinateur[]>([]);
+  const [selectedForm, setSelectedForm] = useState(''); // Suivi du formulaire à afficher
 
   useEffect(() => {
-    // Fonction pour récupérer les ordinateurs depuis l'API
     const fetchOrdinateurs = async () => {
       try {
         const response = await axios.get('http://localhost:5001/api/ordinateur/all');
@@ -39,15 +37,16 @@ const Product: React.FC = () => {
     fetchOrdinateurs();
   }, []);
 
-  // Fonction pour afficher le formulaire d'ajout d'ordinateur
+  // Afficher les options d'ajout
   const handleAddClick = () => {
-    setIsFormVisible(true);
+    setIsAddOptionsVisible(true);
     setIsAllOrdinateurVisible(false);
   };
 
-  // Fonction pour afficher tous les ordinateurs
+  // Afficher tous les ordinateurs
   const handleShowAllClick = () => {
     setIsAllOrdinateurVisible(true);
+    setIsAddOptionsVisible(false);
     setIsFormVisible(false);
     setFilteredOrdinateurs(ordinateurs); // Réinitialiser la recherche
   };
@@ -57,12 +56,19 @@ const Product: React.FC = () => {
     setSearchTerm(e.target.value);
   };
 
-  // Fonction pour effectuer la recherche d'ordinateurs
+  // Fonction pour effectuer la recherche
   const handleSearchClick = () => {
     const filtered = ordinateurs.filter(ordinateur =>
-      ordinateur.marque.toLowerCase().includes(searchTerm.toLowerCase()) // Filtre par la marque
+      ordinateur.marque.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredOrdinateurs(filtered);
+  };
+
+  // Fonction pour afficher le formulaire correspondant
+  const handleShowForm = (formType: string) => {
+    setSelectedForm(formType);
+    setIsFormVisible(true);
+    setIsAddOptionsVisible(false);
   };
 
   return (
@@ -81,17 +87,34 @@ const Product: React.FC = () => {
           </button>
         </div>
         <button onClick={handleAddClick} style={styles.addButton}>
-          Ajouter un Ordinateur
+          Ajouter un Produit
         </button>
         <button onClick={handleShowAllClick} style={styles.showButtons}>
-          Afficher tous les Ordinateurs
+          Afficher tous les Produits
         </button>
       </nav>
 
-      {/* Afficher le formulaire quand isFormVisible est true */}
-      {isFormVisible && <FormOrdinateur />}
+      {/* Afficher les boutons Ajouter un Ordinateur, Téléphone, Imprimante */}
+      {isAddOptionsVisible && (
+        <div style={styles.addOptions}>
+          <button onClick={() => handleShowForm('ordinateur')} style={styles.addButton}>
+            Ordinateur
+          </button>
+          <button onClick={() => handleShowForm('telephone')} style={styles.addButton}>
+            Téléphone
+          </button>
+          <button onClick={() => handleShowForm('imprimante')} style={styles.addButton}>
+            Imprimante
+          </button>
+        </div>
+      )}
 
-      {/* Afficher tous les ordinateurs quand isAllOrdinateurVisible est true */}
+      {/* Afficher le formulaire en fonction de selectedForm */}
+      {isFormVisible && selectedForm === 'ordinateur' && <FormOrdinateur />}
+      {isFormVisible && selectedForm === 'telephone' && <FormTelephone />}
+      {isFormVisible && selectedForm === 'imprimante' && <FormImprimante />} 
+
+      {/* Afficher tous les ordinateurs */}
       {isAllOrdinateurVisible && (
         <AllOrdinateur ordinateurs={filteredOrdinateurs} />
       )}
@@ -99,7 +122,7 @@ const Product: React.FC = () => {
   );
 };
 
-// Styles CSS en ligne pour styliser la page
+// Styles CSS en ligne
 const styles = {
   navbar: {
     display: 'flex',
@@ -121,11 +144,12 @@ const styles = {
   },
   addButton: {
     padding: '10px 20px',
-    backgroundColor: '#28a745',
+    backgroundColor: '#f0a50f',
     color: '#fff',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
+    marginRight: '10px',
   },
   showButtons: {
     padding: '10px 20px',
@@ -142,6 +166,11 @@ const styles = {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
+  },
+  addOptions: {
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '20px 0',
   },
 };
 
