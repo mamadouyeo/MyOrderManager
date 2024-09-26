@@ -1,35 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import FormOrdinateur from '../composants/AddOrdinateur';
- import FormTelephone from '../composants/AddTelephone'; // Supposons que vous ayez un composant pour ajouter un téléphone
- import FormImprimante from '../composants/AddImprimante'; // Supposons que vous ayez un composant pour ajouter une imprimante
+import FormTelephone from '../composants/AddTelephone';
+import FormImprimante from '../composants/AddImprimante';
 import AllOrdinateur from '../composants/Allordinateur';
+import AllTelephone from '../composants/Alltelephone';
+import AllImprimante from '../composants/Allimprimante';
 import axios from 'axios';
 
-// Interface pour décrire la structure d'un objet Ordinateur
-interface Ordinateur {
+interface Produit {
   _id: string;
   marque: string;
-  PurchasePrice: number;
   quantity: number;
   color: string;
   picture: string;
 }
 
+interface Ordinateur extends Produit {
+  PurchasePrice: number;
+}
+
+interface Telephone extends Produit {}
+
+interface Imprimante extends Produit {}
+
 const Product: React.FC = () => {
-  const [isAddOptionsVisible, setIsAddOptionsVisible] = useState(false); // Contrôle la visibilité des trois boutons
+  const [isAddOptionsVisible, setIsAddOptionsVisible] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [isAllOrdinateurVisible, setIsAllOrdinateurVisible] = useState(true);
+  const [isAllProductsVisible, setIsAllProductsVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [ordinateurs, setOrdinateurs] = useState<Ordinateur[]>([]);
+  const [telephones, setTelephones] = useState<Telephone[]>([]);
+  const [imprimantes, setImprimantes] = useState<Imprimante[]>([]);
   const [filteredOrdinateurs, setFilteredOrdinateurs] = useState<Ordinateur[]>([]);
-  const [selectedForm, setSelectedForm] = useState(''); // Suivi du formulaire à afficher
+  const [filteredTelephones, setFilteredTelephones] = useState<Telephone[]>([]);
+  const [filteredImprimantes, setFilteredImprimantes] = useState<Imprimante[]>([]);
+  const [selectedForm, setSelectedForm] = useState('');
+  const [showOrdinateurs, setShowOrdinateurs] = useState(false);
+  const [showTelephones, setShowTelephones] = useState(false);
+  const [showImprimantes, setShowImprimantes] = useState(false);
 
   useEffect(() => {
     const fetchOrdinateurs = async () => {
       try {
         const response = await axios.get('http://localhost:5001/api/ordinateur/all');
         setOrdinateurs(response.data.data);
-        setFilteredOrdinateurs(response.data.data); // Initialement, tous les ordinateurs sont affichés
+        setFilteredOrdinateurs(response.data.data);
       } catch (error) {
         console.error("Erreur lors du chargement des ordinateurs :", error);
       }
@@ -37,38 +52,88 @@ const Product: React.FC = () => {
     fetchOrdinateurs();
   }, []);
 
-  // Afficher les options d'ajout
+  useEffect(() => {
+    const fetchTelephones = async () => {
+      try {
+        const response = await axios.get('http://localhost:5001/api/telephone/all');
+        setTelephones(response.data.data);
+        setFilteredTelephones(response.data.data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des téléphones :", error);
+      }
+    };
+    fetchTelephones();
+  }, []);
+
+  useEffect(() => {
+    const fetchImprimantes = async () => {
+      try {
+        const response = await axios.get('http://localhost:5001/api/imprimante/all');
+        setImprimantes(response.data.data);
+        setFilteredImprimantes(response.data.data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des imprimantes :", error);
+      }
+    };
+    fetchImprimantes();
+  }, []);
+
   const handleAddClick = () => {
     setIsAddOptionsVisible(true);
-    setIsAllOrdinateurVisible(false);
+    setIsAllProductsVisible(false);
   };
 
-  // Afficher tous les ordinateurs
   const handleShowAllClick = () => {
-    setIsAllOrdinateurVisible(true);
+    setIsAllProductsVisible(true);
     setIsAddOptionsVisible(false);
     setIsFormVisible(false);
-    setFilteredOrdinateurs(ordinateurs); // Réinitialiser la recherche
+    setShowOrdinateurs(false);
+    setShowTelephones(false);
+    setShowImprimantes(false);
   };
 
-  // Fonction pour gérer le changement du champ de recherche
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  // Fonction pour effectuer la recherche
   const handleSearchClick = () => {
-    const filtered = ordinateurs.filter(ordinateur =>
+    const filteredOrdinateurResults = ordinateurs.filter(ordinateur =>
       ordinateur.marque.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setFilteredOrdinateurs(filtered);
+    const filteredTelephoneResults = telephones.filter(telephone =>
+      telephone.marque.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const filteredImprimanteResults = imprimantes.filter(imprimante =>
+      imprimante.marque.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setFilteredOrdinateurs(filteredOrdinateurResults);
+    setFilteredTelephones(filteredTelephoneResults);
+    setFilteredImprimantes(filteredImprimanteResults);
   };
 
-  // Fonction pour afficher le formulaire correspondant
   const handleShowForm = (formType: string) => {
     setSelectedForm(formType);
     setIsFormVisible(true);
     setIsAddOptionsVisible(false);
+  };
+
+  const handleShowOrdinateurs = () => {
+    setShowOrdinateurs(true);
+    setShowTelephones(false);
+    setShowImprimantes(false);
+  };
+
+  const handleShowTelephones = () => {
+    setShowOrdinateurs(false);
+    setShowTelephones(true);
+    setShowImprimantes(false);
+  };
+
+  const handleShowImprimantes = () => {
+    setShowOrdinateurs(false);
+    setShowTelephones(false);
+    setShowImprimantes(true);
   };
 
   return (
@@ -82,7 +147,7 @@ const Product: React.FC = () => {
             onChange={handleSearchChange}
             style={styles.searchInput}
           />
-          <button onClick={handleSearchClick} style={styles.showButton}>
+          <button onClick={handleSearchClick} style={styles.searchButton}>
             Rechercher
           </button>
         </div>
@@ -94,7 +159,6 @@ const Product: React.FC = () => {
         </button>
       </nav>
 
-      {/* Afficher les boutons Ajouter un Ordinateur, Téléphone, Imprimante */}
       {isAddOptionsVisible && (
         <div style={styles.addOptions}>
           <button onClick={() => handleShowForm('ordinateur')} style={styles.addButton}>
@@ -109,20 +173,25 @@ const Product: React.FC = () => {
         </div>
       )}
 
-      {/* Afficher le formulaire en fonction de selectedForm */}
       {isFormVisible && selectedForm === 'ordinateur' && <FormOrdinateur />}
       {isFormVisible && selectedForm === 'telephone' && <FormTelephone />}
-      {isFormVisible && selectedForm === 'imprimante' && <FormImprimante />} 
+      {isFormVisible && selectedForm === 'imprimante' && <FormImprimante />}
 
-      {/* Afficher tous les ordinateurs */}
-      {isAllOrdinateurVisible && (
-        <AllOrdinateur ordinateurs={filteredOrdinateurs} />
+      {isAllProductsVisible && (
+        <div style={styles.productOptions}>
+          <button onClick={handleShowOrdinateurs} style={styles.showButtonBlack}>Ordinateurs</button>
+          <button onClick={handleShowTelephones} style={styles.showButtonBlack}>Téléphones</button>
+          <button onClick={handleShowImprimantes} style={styles.showButtonBlack}>Imprimantes</button>
+        </div>
       )}
+
+      {showOrdinateurs && <AllOrdinateur ordinateurs={filteredOrdinateurs} />}
+      {/* {showTelephones && <AllTelephone telephones={filteredTelephones} />}
+      {showImprimantes && <AllImprimante imprimantes={filteredImprimantes} />} */}
     </div>
   );
 };
 
-// Styles CSS en ligne
 const styles = {
   navbar: {
     display: 'flex',
@@ -141,6 +210,15 @@ const styles = {
     borderRadius: '4px',
     width: '250px',
     marginRight: '10px',
+    border: '1px solid #ccc',
+  },
+  searchButton: {
+    padding: '10px 20px',
+    backgroundColor: 'red',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
   },
   addButton: {
     padding: '10px 20px',
@@ -159,15 +237,21 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
   },
-  showButton: {
+  showButtonBlack: {
     padding: '10px 20px',
-    backgroundColor: 'red',
+    backgroundColor: 'black',
     color: '#fff',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
+    marginRight: '10px',
   },
   addOptions: {
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '20px 0',
+  },
+  productOptions: {
     display: 'flex',
     justifyContent: 'center',
     margin: '20px 0',

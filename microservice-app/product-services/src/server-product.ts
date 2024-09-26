@@ -3,6 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import { mongooseHelper } from './config/db/mongoseHelper';
 import OrdinateurRouter from './routers/routerOrdinateur';
+import ImprimanteRouter from './routers/routeImprimant'
 import TelephoneRouter from './routers/routerTelephone';
 
 const port = 5001;
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/src/uploads', express.static('src/uploads'));
 
 // Routes des ordinateurs
+app.use('/api/imprimante', ImprimanteRouter); 
 app.use('/api/ordinateur', OrdinateurRouter); 
 app.use('/api/telephone',TelephoneRouter)
 // Gestionnaire d'erreurs global
