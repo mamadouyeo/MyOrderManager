@@ -2,9 +2,9 @@ import { Schema, model } from 'mongoose';
 
 interface IOrdinateur {
   marque: string;
-  PurchasePrice: number; // Changement en Number
+  PurchasePrice: number;
   picture: string;
-  quantity: number; // Changement en Number
+  quantity: number; 
   frequence: string;
   disqueDur: string;
   ram: string;
@@ -15,8 +15,8 @@ interface IOrdinateur {
 const OrdinateurSchema = new Schema<IOrdinateur>({
   marque: { type: String, required: true },
   picture: { type: String, required: true },
-  PurchasePrice: { type: Number, required: true }, // Changement de type
-  quantity: { type: Number, required: true }, // Changement de type
+  PurchasePrice: { type: Number, required: true }, 
+  quantity: { type: Number, required: true }, 
   frequence: { type: String, required: true },
   disqueDur: { type: String, required: true },
   color: { type: String, required: true },

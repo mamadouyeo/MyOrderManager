@@ -5,14 +5,11 @@ import { Ordinateur } from "../../../models/OrdinateurModel";
 // Contrôleur pour récupérer tous les ordinateurs
 const Allordinateur = async (req: Request, res: Response): Promise<Response> => {
   try {
-    console.log('Tentative de récupération des ordinateurs...');
+
 
     // Récupération des ordinateurs depuis la base de données
     const All = await Ordinateur.find();
 
-    console.log('Ordinateurs récupérés : ', All);
-    console.log('fin');
-    
 
     // Si des ordinateurs sont trouvés, on les renvoie avec un code de statut 200
     return res.status(200).json({

@@ -37,7 +37,8 @@ const upload = multer({
       cb(new Error('Seules les images sont autorisées (jpeg, jpg, png, gif).'));
     }
   },
-  limits: { fileSize: 5 * 1024 * 1024 } // Limite de taille de fichier à 5MB
+  // Limite de taille de fichier à 5MB
+  limits: { fileSize: 5 * 1024 * 1024 } 
 });
 
 // Route pour ajouter un ordinateur avec une image
@@ -58,7 +59,7 @@ const AddOrdinateur = async (req: Request, res: Response): Promise<Response> => 
     // Création d'un nouvel ordinateur
     const newOrdinateur = new Ordinateur({
       marque,
-      picture: req.file.filename, // Enregistrer le nom du fichier de l'image
+      picture: req.file.filename, 
       PurchasePrice,
       quantity,
       color,
@@ -77,7 +78,7 @@ const AddOrdinateur = async (req: Request, res: Response): Promise<Response> => 
       data: {
         id: SaveNewOrdinateur._id,
         marque: SaveNewOrdinateur.marque,
-        picture: SaveNewOrdinateur.picture, // Envoyer le nom du fichier
+        picture: SaveNewOrdinateur.picture, 
         PurchasePrice: SaveNewOrdinateur.PurchasePrice,
         quantity: SaveNewOrdinateur.quantity,
         color: SaveNewOrdinateur.color,

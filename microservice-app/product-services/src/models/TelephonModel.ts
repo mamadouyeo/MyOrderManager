@@ -1,23 +1,31 @@
-import {Schema, model} from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 
-interface ITelephone {
-    marque : string;
-    picture : string;
-    purchasePrice : string;
-    memoieInterne : string;
-    memoieRam : string;
-    baterie : string;
+// Interface représentant les données du téléphone
+interface ITelephone extends Document {
+    marque: string;
+    picture: string;
+    purchasePrice: string; 
+    memoieInterne: string; 
+    memoieRam: string; 
+    baterie: string;
+    color: string;
 }
 
-const TelephoneSchema  = new Schema<ITelephone>({
-    marque: {type : String , required : true},
-    picture: {type : String , required : true},
-    purchasePrice: {type : String , required : true},
-    memoieInterne: {type : String , required : true},
-    memoieRam: {type : String , required : true},
-    baterie: {type : String , required : true}
-})
+// Définition du schéma Mongoose
+const TelephoneSchema = new Schema<ITelephone>({
+    marque: { type: String,  },
+    picture: { type: String,  },
+    purchasePrice: { type: String,  }, 
+    memoieInterne: { type: String,  }, 
+    memoieRam: { type: String,  }, 
+    baterie: { type: String,  },
+    color: { type: String,  }
+}, {
+    // Ajoute createdAt et updatedAt automatiquement
+    timestamps: true  
+});
 
-const Telephone = model('Telephone', TelephoneSchema)
+// Création du modèle Mongoose
+const Telephone = model<ITelephone>('Telephone', TelephoneSchema);
 
-export {Telephone}
+export { Telephone };

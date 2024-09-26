@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
-import '../css/AddOrdinateur.css'; // Assurez-vous d'importer le fichier CSS
+import '../css/AddOrdinateur.css';
 
 interface OrdinateurFormData {
   marque: string;
@@ -68,7 +68,7 @@ const AddOrdinateur: React.FC = () => {
     data.append('rotation', formData.rotation);
 
     if (formData.picture) {
-      data.append('picture', formData.picture); // Ajout de l'image
+      data.append('picture', formData.picture); 
     }
 
     try {
@@ -92,7 +92,8 @@ const AddOrdinateur: React.FC = () => {
         frequence: '',
         rotation: '',
       });
-      setImagePreview(null); // Réinitialiser l'aperçu de l'image
+      // Réinitialiser l'aperçu de l'image
+      setImagePreview(null); 
     } catch (error) {
       console.error('Erreur lors de l\'ajout de l\'ordinateur', error);
       alert('Une erreur est survenue lors de l\'ajout de l\'ordinateur.');

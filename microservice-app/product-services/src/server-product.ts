@@ -1,8 +1,9 @@
 import express from 'express';
-import cors from 'cors'; // Importer le package CORS
+import cors from 'cors'; 
 import path from 'path';
 import { mongooseHelper } from './config/db/mongoseHelper';
 import OrdinateurRouter from './routers/routerOrdinateur';
+import TelephoneRouter from './routers/routerTelephone';
 
 const port = 5001;
 const app = express();
@@ -14,8 +15,8 @@ app.use(express.json());
 app.use('/src/uploads', express.static('src/uploads'));
 
 // Routes des ordinateurs
-app.use('/api/ordinateur', OrdinateurRouter); // Ajouter le préfixe de route ici
-
+app.use('/api/ordinateur', OrdinateurRouter); 
+app.use('/api/telephone',TelephoneRouter)
 // Gestionnaire d'erreurs global
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.error(err.stack);
