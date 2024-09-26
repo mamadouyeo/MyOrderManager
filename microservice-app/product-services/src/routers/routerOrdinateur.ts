@@ -1,4 +1,4 @@
-import { AddOrdinateur, upload } from "../controllers/controller/controllerordinateur/add.product";
+import { AddOrdinateur, upload } from "../controllers/controller/controllerordinateur/addOrdinateur";
 import { Router } from "express";
 import { Allordinateur } from "../controllers/controller/controllerordinateur/Allordinateur";
 import { researchOrdinateur } from "../controllers/controller/controllerordinateur/researchOdinateur";
