@@ -1,15 +1,24 @@
 import React from 'react';
 import axios from 'axios';
-import '../css/AllOrdinateur.css'; // Importez votre fichier CSS
+import '../css/AllOrdinateur.css'; 
 
 // Interface pour décrire la structure d'un objet Ordinateur
-interface Ordinateur {
+export interface Ordinateur {
   _id: string;
   marque: string;
-  PurchasePrice: number;
+  purchasePrice: number; 
   quantity: number;
   color: string;
   picture: string;
+}
+
+// Interface pour décrire la structure d'un objet Telephone
+export interface Telephone {
+  _id: string;
+  marque: string;
+  picture: string;
+  purchasePrice: string; 
+  color: string;
 }
 
 // Props du composant AllOrdinateur, qui contient un tableau d'ordinateurs
@@ -22,7 +31,7 @@ const AllOrdinateur: React.FC<AllOrdinateurProps> = ({ ordinateurs }) => {
   
   // Fonction pour gérer l'achat d'un ordinateur
   const handleAcheter = (ordinateur: Ordinateur) => {
-    alert(`Vous avez acheté ${ordinateur.marque} pour ${ordinateur.PurchasePrice} CFA`);
+    alert(`Vous avez acheté ${ordinateur.marque} pour ${ordinateur.purchasePrice} CFA`);
   };
 
   // Fonction pour gérer la suppression d'un ordinateur par son ID
@@ -58,7 +67,7 @@ const AllOrdinateur: React.FC<AllOrdinateurProps> = ({ ordinateurs }) => {
               />
               <h3>{ordinateur.marque}</h3>
               <div className="bloc">
-                <p>Prix: {ordinateur.PurchasePrice} CFA</p>
+                <p>Prix: {ordinateur.purchasePrice} CFA</p>
                 <p>Quantité: {ordinateur.quantity}</p>
                 <p>Couleur: {ordinateur.color}</p>
               </div>

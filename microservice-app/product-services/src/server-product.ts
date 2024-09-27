@@ -14,7 +14,7 @@ app.use(express.json());
 
 // Servir les fichiers statiques depuis le dossier 'uploads'
 app.use('/src/uploads', express.static('src/uploads'));
-
+app.use('/uploads', express.static('uploads'));
 // Routes des ordinateurs
 app.use('/api/imprimante', ImprimanteRouter); 
 app.use('/api/ordinateur', OrdinateurRouter); 

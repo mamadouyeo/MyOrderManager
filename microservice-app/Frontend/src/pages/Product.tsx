@@ -16,12 +16,16 @@ interface Produit {
 }
 
 interface Ordinateur extends Produit {
-  PurchasePrice: number;
+  purchasePrice: number;
 }
 
-interface Telephone extends Produit {}
+interface Telephone extends Produit {
+  purchasePrice: string;
+}
 
-interface Imprimante extends Produit {}
+interface Imprimante extends Produit {
+  purchasePrice: string;
+}
 
 const Product: React.FC = () => {
   const [isAddOptionsVisible, setIsAddOptionsVisible] = useState(false);
@@ -39,64 +43,23 @@ const Product: React.FC = () => {
   const [showTelephones, setShowTelephones] = useState(false);
   const [showImprimantes, setShowImprimantes] = useState(false);
 
+  const fetchData = async (endpoint: string, setData: Function, setFilteredData: Function) => {
+    try {
+      const response = await axios.get(endpoint);
+      setData(response.data.data);
+      setFilteredData(response.data.data);
+    } catch (error) {
+      console.error(`Erreur lors du chargement des données depuis ${endpoint} :`, error);
+    }
+  };
+
   useEffect(() => {
-    const fetchOrdinateurs = async () => {
-      try {
-        const response = await axios.get('http://localhost:5001/api/ordinateur/all');
-        setOrdinateurs(response.data.data);
-        setFilteredOrdinateurs(response.data.data);
-      } catch (error) {
-        console.error("Erreur lors du chargement des ordinateurs :", error);
-      }
-    };
-    fetchOrdinateurs();
+    fetchData('http://localhost:5001/api/ordinateur/all', setOrdinateurs, setFilteredOrdinateurs);
+    fetchData('http://localhost:5001/api/telephone/all', setTelephones, setFilteredTelephones);
+    fetchData('http://localhost:5001/api/imprimante/all', setImprimantes, setFilteredImprimantes);
   }, []);
 
   useEffect(() => {
-    const fetchTelephones = async () => {
-      try {
-        const response = await axios.get('http://localhost:5001/api/telephone/all');
-        setTelephones(response.data.data);
-        setFilteredTelephones(response.data.data);
-      } catch (error) {
-        console.error("Erreur lors du chargement des téléphones :", error);
-      }
-    };
-    fetchTelephones();
-  }, []);
-
-  useEffect(() => {
-    const fetchImprimantes = async () => {
-      try {
-        const response = await axios.get('http://localhost:5001/api/imprimante/all');
-        setImprimantes(response.data.data);
-        setFilteredImprimantes(response.data.data);
-      } catch (error) {
-        console.error("Erreur lors du chargement des imprimantes :", error);
-      }
-    };
-    fetchImprimantes();
-  }, []);
-
-  const handleAddClick = () => {
-    setIsAddOptionsVisible(true);
-    setIsAllProductsVisible(false);
-  };
-
-  const handleShowAllClick = () => {
-    setIsAllProductsVisible(true);
-    setIsAddOptionsVisible(false);
-    setIsFormVisible(false);
-    setShowOrdinateurs(false);
-    setShowTelephones(false);
-    setShowImprimantes(false);
-  };
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleSearchClick = () => {
     const filteredOrdinateurResults = ordinateurs.filter(ordinateur =>
       ordinateur.marque.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -110,12 +73,35 @@ const Product: React.FC = () => {
     setFilteredOrdinateurs(filteredOrdinateurResults);
     setFilteredTelephones(filteredTelephoneResults);
     setFilteredImprimantes(filteredImprimanteResults);
+  }, [searchTerm, ordinateurs, telephones, imprimantes]);
+
+  const handleAddClick = () => {
+    setIsAddOptionsVisible(true);
+    setIsFormVisible(false); // Masquer le formulaire actuel
+    setIsAllProductsVisible(false); // Masquer les produits
+    setShowOrdinateurs(false);
+    setShowTelephones(false);
+    setShowImprimantes(false);
+  };
+
+  const handleShowAllClick = () => {
+    setIsAllProductsVisible(true);
+    setIsAddOptionsVisible(false); // Masquer les options d'ajout
+    setIsFormVisible(false); // Masquer le formulaire
+    setShowOrdinateurs(false);
+    setShowTelephones(false);
+    setShowImprimantes(false);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
   };
 
   const handleShowForm = (formType: string) => {
     setSelectedForm(formType);
     setIsFormVisible(true);
-    setIsAddOptionsVisible(false);
+    setIsAddOptionsVisible(false); // Masquer les options d'ajout
+    setIsAllProductsVisible(false); // Masquer la liste des produits
   };
 
   const handleShowOrdinateurs = () => {
@@ -147,9 +133,6 @@ const Product: React.FC = () => {
             onChange={handleSearchChange}
             style={styles.searchInput}
           />
-          <button onClick={handleSearchClick} style={styles.searchButton}>
-            Rechercher
-          </button>
         </div>
         <button onClick={handleAddClick} style={styles.addButton}>
           Ajouter un Produit
@@ -186,8 +169,8 @@ const Product: React.FC = () => {
       )}
 
       {showOrdinateurs && <AllOrdinateur ordinateurs={filteredOrdinateurs} />}
-      {/* {showTelephones && <AllTelephone telephones={filteredTelephones} />}
-      {showImprimantes && <AllImprimante imprimantes={filteredImprimantes} />} */}
+      {showTelephones && <AllTelephone telephones={filteredTelephones} />}
+      {showImprimantes && <AllImprimante imprimantes={filteredImprimantes} />}
     </div>
   );
 };
@@ -211,14 +194,6 @@ const styles = {
     width: '250px',
     marginRight: '10px',
     border: '1px solid #ccc',
-  },
-  searchButton: {
-    padding: '10px 20px',
-    backgroundColor: 'red',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
   },
   addButton: {
     padding: '10px 20px',

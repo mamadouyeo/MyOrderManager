@@ -11,6 +11,4 @@ const router = Router()
 
 router.get('/all',Alltelephone)
 router.post('/add', upload.single('picture'), AddTelephone);
-
-
 export default router;

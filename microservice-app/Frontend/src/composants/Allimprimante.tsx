@@ -1,19 +1,22 @@
 import React from 'react';
 import axios from 'axios';
-import '../css/AllImprimante.css'; // Importez votre fichier CSS
+import '../css/AllImprimante.css'; 
 
-interface Imprimante {
+// Définition de l'interface Imprimante
+export interface Imprimante {
   _id: string;
   marque: string;
   picture: string;
-  purchasePrice: string;
+  purchasePrice: string; // ou number selon vos besoins
   color: string;
 }
 
+// Définition de l'interface pour les props du composant
 interface AllImprimanteProps {
   imprimantes: Imprimante[];
 }
 
+// Définition du composant AllImprimante
 const AllImprimante: React.FC<AllImprimanteProps> = ({ imprimantes }) => {
   const handleAcheter = (imprimante: Imprimante) => {
     alert(`Vous avez acheté ${imprimante.marque} pour ${imprimante.purchasePrice} CFA`);

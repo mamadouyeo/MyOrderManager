@@ -2,18 +2,21 @@ import React from 'react';
 import axios from 'axios';
 import '../css/AllTelephone.css'; // Importez votre fichier CSS
 
-interface Telephone {
+// Définition de l'interface Telephone
+export interface Telephone {
   _id: string;
   marque: string;
   picture: string;
-  purchasePrice: string;
+  purchasePrice: string;  // ou number selon vos besoins
   color: string;
 }
 
+// Définition de l'interface pour les props du composant
 interface AllTelephoneProps {
   telephones: Telephone[];
 }
 
+// Définition du composant AllTelephone
 const AllTelephone: React.FC<AllTelephoneProps> = ({ telephones }) => {
   const handleAcheter = (telephone: Telephone) => {
     alert(`Vous avez acheté ${telephone.marque} pour ${telephone.purchasePrice} CFA`);
@@ -39,7 +42,7 @@ const AllTelephone: React.FC<AllTelephoneProps> = ({ telephones }) => {
           {telephones.map((telephone) => (
             <div key={telephone._id} className="telephone-item">
               <img
-                src={`http://localhost:5001/src/uploads/${telephone.picture}`}
+                src={`http://localhost:5001/uploads/${telephone.picture}`}
                 alt={telephone.marque}
                 className="telephone-image"
                 style={{ width: '150px', height: '150px' }}
