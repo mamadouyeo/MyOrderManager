@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import FormOrdinateur from '../composants/AddOrdinateur';
-import FormTelephone from '../composants/AddTelephone';
-import FormImprimante from '../composants/AddImprimante';
-import AllOrdinateur from '../composants/Allordinateur';
-import AllTelephone from '../composants/Alltelephone';
-import AllImprimante from '../composants/Allimprimante';
+import FormOrdinateur from '../composants/add/AddOrdinateur';
+import FormTelephone from '../composants/add/AddTelephone';
+import FormImprimante from '../composants/add/AddImprimante';
+import AllOrdinateur from '../composants/all/Allordinateur';
+import AllTelephone from '../composants/all/Alltelephone';
+import AllImprimante from '../composants/all/Allimprimante';
 import axios from 'axios';
 
 interface Produit {
@@ -69,25 +69,27 @@ const Product: React.FC = () => {
     const filteredImprimanteResults = imprimantes.filter(imprimante =>
       imprimante.marque.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
+    //les recherches des différents produits
     setFilteredOrdinateurs(filteredOrdinateurResults);
     setFilteredTelephones(filteredTelephoneResults);
     setFilteredImprimantes(filteredImprimanteResults);
   }, [searchTerm, ordinateurs, telephones, imprimantes]);
 
+// Masquer les produits et rende l'affichage d'option d'ajout visible
   const handleAddClick = () => {
     setIsAddOptionsVisible(true);
-    setIsFormVisible(false); // Masquer le formulaire actuel
-    setIsAllProductsVisible(false); // Masquer les produits
+    setIsFormVisible(false); 
+    setIsAllProductsVisible(false); 
     setShowOrdinateurs(false);
     setShowTelephones(false);
     setShowImprimantes(false);
   };
-
+// Masquer le formulaire et rende l'affichage d'option d'ajout visible
   const handleShowAllClick = () => {
     setIsAllProductsVisible(true);
-    setIsAddOptionsVisible(false); // Masquer les options d'ajout
-    setIsFormVisible(false); // Masquer le formulaire
+    // Masquer les options d'ajout
+    setIsAddOptionsVisible(false); 
+    setIsFormVisible(false); 
     setShowOrdinateurs(false);
     setShowTelephones(false);
     setShowImprimantes(false);

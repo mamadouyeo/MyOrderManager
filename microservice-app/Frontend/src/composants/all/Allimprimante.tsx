@@ -1,13 +1,14 @@
 import React from 'react';
 import axios from 'axios';
-import '../css/AllImprimante.css'; 
+import '../../css/AllImprimante.css'; 
 
 // Définition de l'interface Imprimante
 export interface Imprimante {
   _id: string;
   marque: string;
   picture: string;
-  purchasePrice: string; // ou number selon vos besoins
+  purchasePrice: string; 
+  typeImprimante?: string;  // On rend ce champ optionnel
   color: string;
 }
 
@@ -18,10 +19,12 @@ interface AllImprimanteProps {
 
 // Définition du composant AllImprimante
 const AllImprimante: React.FC<AllImprimanteProps> = ({ imprimantes }) => {
+  // Fonction pour gérer l'achat d'une imprimante
   const handleAcheter = (imprimante: Imprimante) => {
     alert(`Vous avez acheté ${imprimante.marque} pour ${imprimante.purchasePrice} CFA`);
   };
 
+  // Fonction pour supprimer une imprimante
   const handleSupprimer = async (id: string) => {
     try {
       await axios.delete(`http://localhost:5001/api/imprimante/${id}`);
@@ -42,7 +45,7 @@ const AllImprimante: React.FC<AllImprimanteProps> = ({ imprimantes }) => {
           {imprimantes.map((imprimante) => (
             <div key={imprimante._id} className="imprimante-item">
               <img
-                src={`http://localhost:5001/src/uploads/${imprimante.picture}`}
+                src={`http://localhost:5001/uploads/${imprimante.picture}`}
                 alt={imprimante.marque}
                 className="imprimante-image"
                 style={{ width: '150px', height: '150px' }}
@@ -50,6 +53,7 @@ const AllImprimante: React.FC<AllImprimanteProps> = ({ imprimantes }) => {
               <h3>{imprimante.marque}</h3>
               <div className="bloc">
                 <p>Prix: {imprimante.purchasePrice} CFA</p>
+                <p>Type: {imprimante.typeImprimante || 'Non spécifié'}</p> {/* Gestion de typeImprimante */}
                 <p>Couleur: {imprimante.color}</p>
               </div>
               <div className="buttons">

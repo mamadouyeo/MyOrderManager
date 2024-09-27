@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import '../css/AllTelephone.css'; // Importez votre fichier CSS
+import '../../css/AllTelephone.css'; // Importez votre fichier CSS
 
 // Définition de l'interface Telephone
 export interface Telephone {

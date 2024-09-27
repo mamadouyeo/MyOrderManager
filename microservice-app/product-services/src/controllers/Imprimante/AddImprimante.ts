@@ -58,10 +58,10 @@ const AddImprimante = async (req: Request, res: Response): Promise<Response> => 
       return res.status(400).json({ message: "L'image est requise." });
     }
 
-    // Création d'un nouveau téléphone
+    // Création d'un nouveau imprimante
     const newImprimante = new Imprimante({
       marque,
-      picture: req.file.filename, // Stocker uniquement le nom du fichier
+      picture: req.file.filename, 
       purchasePrice,
       color,
     });
@@ -71,7 +71,7 @@ const AddImprimante = async (req: Request, res: Response): Promise<Response> => 
 
     // Retourner une réponse en cas de succès
     return res.status(201).json({
-      message: 'Téléphone enregistré avec succès.',
+      message: 'imprimante enregistré avec succès.',
       data: savedImprimante,
     });
 

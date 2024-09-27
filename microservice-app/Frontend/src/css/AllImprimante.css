@@ -66,3 +66,10 @@ h2 {
 .button-supprimer:hover {
   background-color: #9b2c02; /* Couleur de survol pour le bouton de suppression */
 }
+.imprimante-item .bloc {
+  margin-bottom: 10px;
+}
+
+.imprimante-item p {
+  margin: 5px 0;
+}

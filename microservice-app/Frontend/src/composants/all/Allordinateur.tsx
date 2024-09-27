@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import '../css/AllOrdinateur.css'; 
+import '../../css/AllOrdinateur.css'; 
 
 // Interface pour décrire la structure d'un objet Ordinateur
 export interface Ordinateur {
